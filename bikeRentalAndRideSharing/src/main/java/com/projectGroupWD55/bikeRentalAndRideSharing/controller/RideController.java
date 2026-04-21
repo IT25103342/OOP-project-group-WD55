@@ -1,5 +1,6 @@
 package com.projectGroupWD55.bikeRentalAndRideSharing.controller;
 
+import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideDTO;
 import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Ride;
 import com.projectGroupWD55.bikeRentalAndRideSharing.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,10 @@ public class RideController {
     @Autowired
     private RideService rideService;
 
-    /*@PostMapping
-    public String test(@RequestBody String body) {
-        System.out.println("RAW BODY: " + body);
-        return body;
-    }*/
-
     @PostMapping
-    public Ride createRide(@RequestBody Ride ride) {
-        System.out.println("OBJECT: " + ride);
-        return rideService.createRide(ride);
+    public Ride createRide(@RequestBody RideDTO dto) {
+        System.out.println("OBJECT: " + dto.toString());
+        return rideService.createRide(dto);
     }
 
     @GetMapping("/active")
