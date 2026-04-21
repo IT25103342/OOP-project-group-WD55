@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Getter
@@ -20,14 +22,14 @@ public class Ride {
     private String pickup;
     private String destination;
 
-    private String pickupTime;
+    private LocalDateTime pickupTime;
 
     private String status;
     private Long userId;
 
     public Ride(){}
 
-    public Ride(String pickup, String destination, String pickupTime, String status, Long userID) {
+    public Ride(String pickup, String destination, LocalDateTime pickupTime, String status, Long userID) {
         this.pickup = pickup;
         this.destination = destination;
         this.pickupTime = pickupTime;
