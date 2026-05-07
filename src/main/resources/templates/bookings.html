@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Rental - Bookings Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/bookings">🚴 BikeRental</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/bookings">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bookings/create">New Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bookings/check">Check Availability</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>📋 Bookings Dashboard</h1>
+            <a href="/bookings/create" class="btn btn-primary btn-lg">+ New Booking</a>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">All Bookings</h5>
+            </div>
+            <div class="card-body p-0">
+                <div th:if="${bookings.isEmpty()}" class="p-4 text-center text-muted">
+                    <p>No bookings found. <a href="/bookings/create">Create one now!</a></p>
+                </div>
+                <table class="table table-hover mb-0" th:unless="${bookings.isEmpty()}">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>User ID</th>
+                            <th>Bike ID</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="booking : ${bookings}">
+                            <td class="fw-bold" th:text="${booking.bookingId}"></td>
+                            <td th:text="${booking.userId}"></td>
+                            <td th:text="${booking.bikeId}"></td>
+                            <td th:text="${booking.startTime}"></td>
+                            <td th:text="${booking.endTime}"></td>
+                            <td>
+                                <span class="badge" 
+                                    th:classappend="${booking.status == 'Pending' ? 'bg-warning' : booking.status == 'Active' ? 'bg-info' : booking.status == 'Completed' ? 'bg-success' : 'bg-secondary'}"
+                                    th:text="${booking.status}">
+                                </span>
+                            </td>
+                            <td>
+                                <a th:href="@{/bookings/update/{id}(id=${booking.bookingId})}" class="btn btn-sm btn-warning">✏️ Edit</a>
+                                <a th:href="@{/bookings/cancel/{id}(id=${booking.bookingId})}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this booking? This action cannot be undone.')">🗑️ Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-light rounded">
+            <h5>🔍 Search Booking</h5>
+            <form action="/bookings" method="get" class="d-flex gap-2">
+                <input type="text" name="bookingId" placeholder="Enter Booking ID" class="form-control" th:value="${searchQuery}" required>
+                <button type="submit" class="btn btn-secondary">Search</button>
+                <a href="/bookings" class="btn btn-outline-secondary">Clear</a>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2026 BikeRental Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

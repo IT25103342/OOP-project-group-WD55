@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Booking - Bike Rental</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/bookings">🚴 BikeRental</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/bookings">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bookings/create">New Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bookings/check">Check Availability</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white">
+                        <h3 class="mb-0">✏️ Update Booking</h3>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error!</strong> <span th:text="${errorMessage}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <form th:action="@{/bookings/update/{id}(id=${booking.bookingId})}" method="post" id="updateForm">
+                            <div class="mb-3">
+                                <label for="bookingId" class="form-label">Booking ID</label>
+                                <input type="text" class="form-control" id="bookingId" th:value="${booking.bookingId}" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="userId" class="form-label">User ID</label>
+                                <input type="text" class="form-control" id="userId" th:value="${booking.userId}" disabled>
+                                <!-- Hidden field to submit userId -->
+                                <input type="hidden" name="userId" th:value="${booking.userId}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bikeId" class="form-label">Bike ID</label>
+                                <input type="text" class="form-control" id="bikeId" th:value="${booking.bikeId}" disabled>
+                                <!-- Hidden field to submit bikeId -->
+                                <input type="hidden" name="bikeId" th:value="${booking.bikeId}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="startTime" class="form-label">Start Time *</label>
+                                <input type="datetime-local" class="form-control" id="startTime" name="startTime" 
+                                       th:value="${booking.startTime != null ? booking.startTime.replace(' ', 'T') : ''}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="endTime" class="form-label">End Time *</label>
+                                <input type="datetime-local" class="form-control" id="endTime" name="endTime" 
+                                       th:value="${booking.endTime != null ? booking.endTime.replace(' ', 'T') : ''}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status *</label>
+                                <select class="form-select" id="status" name="status" required>
+                                    <option value="Pending" th:selected="${booking.status == 'Pending'}">Pending</option>
+                                    <option value="Active" th:selected="${booking.status == 'Active'}">Active</option>
+                                    <option value="Completed" th:selected="${booking.status == 'Completed'}">Completed</option>
+                                    <option value="Cancelled" th:selected="${booking.status == 'Cancelled'}">Cancelled</option>
+                                </select>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg flex-grow-1">Update Booking</button>
+                                <a href="/bookings" class="btn btn-secondary btn-lg">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-4">
+                    <h5>ℹ️ Update Guidelines</h5>
+                    <ul class="mb-0">
+                        <li>You can modify start time, end time, and status</li>
+                        <li>Booking ID, User ID, and Bike ID are read-only</li>
+                        <li>Status flow: Pending → Active → Completed or Cancelled</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2026 BikeRental Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

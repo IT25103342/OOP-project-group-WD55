@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Availability - Bike Rental</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/bookings">🚴 BikeRental</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/bookings">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/bookings/create">New Booking</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/bookings/check">Check Availability</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white">
+                        <h3 class="mb-0">🔍 Check Bike Availability</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/bookings/check" method="get" id="availabilityForm">
+                            <div class="mb-3">
+                                <label for="bikeId" class="form-label">Bike ID *</label>
+                                <input type="text" class="form-control" id="bikeId" name="bikeId" th:value="${bikeId}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="startTime" class="form-label">Start Time *</label>
+                                <input type="datetime-local" class="form-control" id="startTime" name="startTime" th:value="${startTime}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="endTime" class="form-label">End Time *</label>
+                                <input type="datetime-local" class="form-control" id="endTime" name="endTime" th:value="${endTime}" required>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg flex-grow-1">Check Availability</button>
+                                <a href="/bookings" class="btn btn-secondary btn-lg">Back</a>
+                            </div>
+                        </form>
+
+                        <div th:if="${message}" th:classappend="${messageType} == 'success' ? 'alert-success' : 'alert-danger'" 
+                             class="alert mt-4 alert-dismissible fade show" role="alert">
+                            <strong th:text="${messageType} == 'success' ? '✓ Available!' : '✗ Not Available'"></strong>
+                            <span th:text="${message}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-4">
+                    <h5>ℹ️ How It Works</h5>
+                    <ul class="mb-0">
+                        <li>Enter the Bike ID you want to rent</li>
+                        <li>Select the start time and end time</li>
+                        <li>Click "Check Availability" to verify</li>
+                        <li>If available, proceed to create a booking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2026 BikeRental Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

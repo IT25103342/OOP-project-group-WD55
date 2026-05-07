@@ -1,0 +1,6 @@
+com/example/bikerental/model/Booking.class
+com/example/bikerental/BikeRentalApplication.class
+com/example/bikerental/controller/BookingController.class
+com/example/bikerental/service/BookingServiceImpl.class
+com/example/bikerental/service/BookingService.class
+com/example/bikerental/model/Reservation.class
