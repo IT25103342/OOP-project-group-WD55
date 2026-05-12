@@ -23,15 +23,9 @@ public class UserService {
         userRepository.save(user);
     }
     public UserResponse verifyUser(UserLogin userLogin) {
-        User1 user = userRepository.findByEmail(userLogin.getEmail());
-        if(!user.getEmail().equals(userLogin.getEmail())){
-            throw new RuntimeException("User does not exist");
-        }
+        User1 user = userRepository.findByEmail(userLogin.getEmail())
+                .orElseThrow(()-> new RuntimeException("User not found"));
 
-        user.setUsername(userLogin.getUsername());
-        user.setPassword(userLogin.getPassword());
-        user.setEmail(userLogin.getEmail());
-        user.setRole(userLogin.getRole());
         if(!user.getPassword().equals(userLogin.getPassword())) {
             throw new RuntimeException("Passwords don't match");
         }
@@ -45,7 +39,15 @@ public class UserService {
         return userResponse;
     }
     public User1 getuserById(Long id) {
-        User1 user = userRepository.findById(id).get();
+        User1 user = userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("User not found"));
         return user;
     }
+    public void updateUser(User1 user) {
+        userRepository.save(user);
+    }
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
 }

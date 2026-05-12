@@ -9,22 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rides")
+@RequestMapping("/api/rides")
 public class RideController {
     @Autowired
     private RideService rideService;
 
     @PostMapping
     public Ride createRide(@RequestBody RideDTO dto) {
-        System.out.println("OBJECT: " + dto.toString());
         return rideService.createRide(dto);
     }
 
-    @GetMapping("/active")
+    @GetMapping("/api/active")
     public List<Ride> getActiveRides(){
         return rideService.getActiveRides();
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/{id}")
     public void deleteRide(@PathVariable Long id){
         rideService.deleteRide(id);
     }
