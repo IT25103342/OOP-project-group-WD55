@@ -36,7 +36,10 @@ public class BookingService {
     public List<Booking> findAll() {
         return bookingRepository.findAll();
     }
-    public List<Booking> findActiveRides() {
+    public List<Booking> findActiveBooking() {
         return bookingRepository.findByStatus("ACTIVE");
+    }
+    public void delete(Booking booking){
+        bookingRepository.delete(booking);
     }
 }

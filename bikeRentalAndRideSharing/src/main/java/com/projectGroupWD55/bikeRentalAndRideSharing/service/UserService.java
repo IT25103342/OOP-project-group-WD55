@@ -71,8 +71,34 @@ public class UserService {
     public List<User1> findAll() {
         return userRepository.findAll();
     }
-    public void updateUser(User1 user) {
-        userRepository.save(user);
+    public UserResponse updateUser(Long id, UserLogin userLogin) {
+
+        User1 user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (userLogin.getUsername() != null) {
+            user.setUsername(userLogin.getUsername());
+        }
+        if (userLogin.getEmail() != null) {
+            user.setEmail(userLogin.getEmail());
+        }
+        if (userLogin.getPassword() != null) {
+            user.setPassword(userLogin.getPassword());
+        }
+        if (userLogin.getRole() != null) {
+            user.setRole(userLogin.getRole());
+        }
+
+        User1 savedUser = userRepository.save(user);
+
+        UserResponse response = new UserResponse();
+        response.setId(savedUser.getId());
+        response.setUsername(savedUser.getUsername());
+        response.setEmail(savedUser.getEmail());
+        response.setRole(savedUser.getRole());
+        response.setCreatedDate(savedUser.getCreatedDate());
+
+        return response;
     }
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
