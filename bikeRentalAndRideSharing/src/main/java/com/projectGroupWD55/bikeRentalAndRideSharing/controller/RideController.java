@@ -1,9 +1,8 @@
 package com.projectGroupWD55.bikeRentalAndRideSharing.controller;
 
-import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideDTO;
-import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Ride;
+import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideRequestDTO;
+import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideResponseDTO;
 import com.projectGroupWD55.bikeRentalAndRideSharing.service.RideService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,20 +10,28 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rides")
 public class RideController {
-    @Autowired
     private RideService rideService;
-
-    @PostMapping
-    public Ride createRide(@RequestBody RideDTO dto) {
-        return rideService.createRide(dto);
+    public RideController(RideService rideService) {
+        this.rideService = rideService;
     }
-
-    @GetMapping("/api/active")
-    public List<Ride> getActiveRides(){
+    @PostMapping
+    public RideResponseDTO postRide(@RequestBody RideRequestDTO rideRequestDTO) {
+        return rideService.postRide(rideRequestDTO);
+    }
+    @GetMapping("/active")
+    public List<RideResponseDTO> getActiveRides() {
         return rideService.getActiveRides();
     }
-    @DeleteMapping("/api/{id}")
-    public void deleteRide(@PathVariable Long id){
-        rideService.deleteRide(id);
+    @GetMapping("/search")
+    public List<RideResponseDTO> searchRides(@RequestParam String pickup, @RequestParam String destination) {
+        return rideService.searchRides(pickup, destination);
+    }
+    @PostMapping("/{id}/join")
+    public RideResponseDTO joinRide(@PathVariable Long id, @RequestParam Long passengerId) {
+        return rideService.joinRide(id,passengerId);
+    }
+    @DeleteMapping("/{id}")
+    public RideResponseDTO cancelRide(@PathVariable Long id, @RequestParam Long userId) {
+        return rideService.cancelRide(id,userId);
     }
 }

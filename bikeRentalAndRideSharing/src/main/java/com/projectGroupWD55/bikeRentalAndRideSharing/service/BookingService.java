@@ -6,12 +6,10 @@ import com.projectGroupWD55.bikeRentalAndRideSharing.entity.*;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.BikeRepository;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.BookingRepository;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
