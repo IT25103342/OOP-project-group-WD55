@@ -7,10 +7,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class RideDTO {
-
-    private String pickup;
-    private String destination;
-    private LocalDateTime pickupTime;
-    private Long userId;
+public class BookingDTO {
+    private LocalDateTime bookingTime;
+    private Long bookingId;
+    private double price;
+    private double distance;
 }

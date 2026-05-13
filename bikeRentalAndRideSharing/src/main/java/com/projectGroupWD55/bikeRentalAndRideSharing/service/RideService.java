@@ -5,8 +5,6 @@ import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Ride;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.RideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,7 +16,7 @@ public class RideService {
 
         ride.setPickup(dto.getPickup());
         ride.setDestination(dto.getDestination());
-        ride.setPickupTime(LocalDateTime.parse(dto.getPickupTime()));
+        ride.setPickupTime(dto.getPickupTime());
         ride.setUserId(dto.getUserId());
         ride.setStatus("ACTIVE");
 

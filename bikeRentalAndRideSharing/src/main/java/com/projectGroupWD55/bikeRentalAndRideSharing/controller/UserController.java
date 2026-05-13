@@ -13,23 +13,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    @Autowired
     private UserService userService;
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserLogin userLogin) {
-        return userService.registerUser(userLogin);
+        return ResponseEntity.ok(userService.registerUser(userLogin));
     }
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<UserResponse> loginUser(@RequestBody UserLogin userLogin) {
         return ResponseEntity.ok(userService.verifyUser(userLogin));
     }
     @GetMapping("/{id}")
-    public User1 getUserById(Long id) {
+    public User1 getUserById(@PathVariable Long id) {
         return userService.getuserById(id);
+    }
+    @GetMapping("/role/{role}")
+    public List<User1> getUserByRole(@PathVariable String role) {
+        return userService.findByRole(role);
+    }
+    @GetMapping
+    public ResponseEntity<List<User1>> getAllUsers() {
+        return ResponseEntity.ok(userService.findAll());
     }
     @DeleteMapping
     public void deleteUser(@RequestBody User1 user) {

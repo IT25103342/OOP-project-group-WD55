@@ -6,21 +6,35 @@ import com.projectGroupWD55.bikeRentalAndRideSharing.entity.User1;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class UserService {
+    private final UserResponse userResponse=new UserResponse();
     private final UserRepository userRepository;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public void registerUser(UserLogin userLogin) {
+    public UserResponse registerUser(UserLogin userLogin) {
         User1 user = new User1();
 
         user.setUsername(userLogin.getUsername());
         user.setPassword(userLogin.getPassword());
         user.setEmail(userLogin.getEmail());
         user.setRole(userLogin.getRole());
+        user.setCreatedDate(LocalDateTime.now());
 
-        userRepository.save(user);
+        User1 savedUser = userRepository.save(user);
+        UserResponse userResponse = new UserResponse();
+
+        userResponse.setId(savedUser.getId());
+        userResponse.setUsername(savedUser.getUsername());
+        userResponse.setEmail(savedUser.getEmail());
+        userResponse.setRole(savedUser.getRole());
+        userResponse.setCreatedDate(savedUser.getCreatedDate());
+
+        return userResponse;
     }
     public UserResponse verifyUser(UserLogin userLogin) {
         User1 user = userRepository.findByEmail(userLogin.getEmail())
@@ -42,6 +56,20 @@ public class UserService {
         User1 user = userRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("User not found"));
         return user;
+    }
+    public List<User1> getUserByDateCreated(LocalDateTime dateCreated) {
+        List<User1> users = userRepository.findByCreatedDate(dateCreated);
+        if(users.isEmpty()) {
+            throw new RuntimeException("No users found");
+        }
+        return users;
+    }
+    public List<User1> findByRole(String role) {
+        role = role.toUpperCase();
+        return  userRepository.findByRole(role);
+    }
+    public List<User1> findAll() {
+        return userRepository.findAll();
     }
     public void updateUser(User1 user) {
         userRepository.save(user);
