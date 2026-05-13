@@ -10,21 +10,24 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "Bookings")
+@Table(name = "bookings")
 public class Booking {
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private User1 user;
+
     private LocalDateTime  startTime;
     private LocalDateTime endTime;
+    private Long durationHours;
+    private LocalDateTime createdAt;
+    private BookingStatus bookingStatus;
+    private Double totalPrice;
 
     @ManyToOne
     @JoinColumn(name ="bike_id")
     private Bike bike;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private double distance;
-    private double price;
-    private String status;
+    private Long id;
 }

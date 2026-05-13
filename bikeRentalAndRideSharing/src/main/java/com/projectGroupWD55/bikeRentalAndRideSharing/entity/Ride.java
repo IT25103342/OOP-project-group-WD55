@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name="rides")
 public class Ride {
-    @Id              //this makes the booticus generate its own id
+    @Id              //this makes the spring booticus generate its own id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
