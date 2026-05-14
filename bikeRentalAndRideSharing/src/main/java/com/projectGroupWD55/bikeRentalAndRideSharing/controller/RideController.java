@@ -1,31 +1,37 @@
 package com.projectGroupWD55.bikeRentalAndRideSharing.controller;
 
-import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideDTO;
-import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Ride;
+import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideRequestDTO;
+import com.projectGroupWD55.bikeRentalAndRideSharing.dto.RideResponseDTO;
 import com.projectGroupWD55.bikeRentalAndRideSharing.service.RideService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/rides")
+@RequestMapping("/api/rides")
 public class RideController {
-    @Autowired
     private RideService rideService;
-
-    @PostMapping
-    public Ride createRide(@RequestBody RideDTO dto) {
-        System.out.println("OBJECT: " + dto.toString());
-        return rideService.createRide(dto);
+    public RideController(RideService rideService) {
+        this.rideService = rideService;
     }
-
+    @PostMapping
+    public RideResponseDTO postRide(@RequestBody RideRequestDTO rideRequestDTO) {
+        return rideService.postRide(rideRequestDTO);
+    }
     @GetMapping("/active")
-    public List<Ride> getActiveRides(){
+    public List<RideResponseDTO> getActiveRides() {
         return rideService.getActiveRides();
     }
+    @GetMapping("/search")
+    public List<RideResponseDTO> searchRides(@RequestParam String pickup, @RequestParam String destination) {
+        return rideService.searchRides(pickup, destination);
+    }
+    @PostMapping("/{id}/join")
+    public RideResponseDTO joinRide(@PathVariable Long id, @RequestParam Long passengerId) {
+        return rideService.joinRide(id,passengerId);
+    }
     @DeleteMapping("/{id}")
-    public void deleteRide(@PathVariable Long id){
-        rideService.deleteRide(id);
+    public RideResponseDTO cancelRide(@PathVariable Long id, @RequestParam Long userId) {
+        return rideService.cancelRide(id,userId);
     }
 }
