@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="passenger")
-//id, ride (FK), passenger (FK→User), joinedAt
 @Getter
 @Setter
 public class RidePassenger {

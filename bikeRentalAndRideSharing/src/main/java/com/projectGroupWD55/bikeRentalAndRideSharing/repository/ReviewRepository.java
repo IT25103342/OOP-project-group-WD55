@@ -10,7 +10,7 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.bike.bikeId = :bikeId")
     Double findAverageRatingByBikeId(@Param("bikeId") Long bikeId);
-    List<Review> findByBikeId(Long bikeId);
+    List<Review> findByBikeBikeId(Long bikeId);
     List<Review> findByUserId(Long userId);
     boolean existsByUserIdAndBookingId(Long userId, Long bookingId);
 }

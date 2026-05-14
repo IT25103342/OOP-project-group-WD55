@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ride Board</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Available Rides</h1>
+        <a th:href="@{/rides/new}" class="btn-primary">Post a New Ride</a>
+    </header>
+
+    <div class="ride-grid">
+        <div th:each="ride : ${rides}" class="ride-card">
+            <div class="card-header">
+                <h3 th:text="${ride.pickupLocation} + ' ➔ ' + ${ride.destinationLocation}">Pickup to Dest</h3>
+                <span class="status-tag" th:text="${ride.status}">OPEN</span>
+            </div>
+            <div class="card-body">
+                <p><strong>Driver:</strong> <span th:text="${ride.posterName}">Name</span></p>
+                <p><strong>Time:</strong> <span th:text="${#temporals.format(ride.rideTime, 'dd MMM yyyy HH:mm')}">Time</span></p>
+                <p><strong>Seats Left:</strong> <span th:text="${ride.seatsAvailable}">0</span></p>
+            </div>
+            <div class="card-footer">
+                <form th:action="@{/rides/{id}/join(id=${ride.id})}" method="post">
+                    <input type="hidden" name="passengerId" value="1"/>
+                    <button type="submit" class="btn-join" th:disabled="${ride.seatsAvailable <= 0}">Join Ride</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

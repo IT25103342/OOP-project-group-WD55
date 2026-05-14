@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bike Reviews</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 th:text="'Reviews for Bike #' + ${bikeId}">Bike Reviews</h1>
+        <div class="avg-rating">
+            Average Rating: <span th:text="${averageRating != null ? #numbers.formatDecimal(averageRating, 1, 1) : 'N/A'}">4.5</span> / 5
+        </div>
+    </header>
+
+    <section class="review-form-section">
+        <h2>Write a Review</h2>
+        <form th:action="@{/reviews/submit}" th:object="${reviewRequest}" method="post" class="review-form">
+            <input type="hidden" th:field="*{bikeId}" />
+
+            <div class="form-group">
+                <label>User ID (Demo):</label>
+                <input type="number" th:field="*{userId}" placeholder="Enter User ID" required />
+            </div>
+            <div class="form-group">
+                <label>Booking ID (Demo):</label>
+                <input type="number" th:field="*{bookingId}" placeholder="Enter completed Booking ID" required />
+            </div>
+
+            <div class="form-group">
+                <label>Rating (1-5):</label>
+                <select th:field="*{rating}" required>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2 - Poor</option>
+                    <option value="1">1 - Terrible</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Comment:</label>
+                <textarea th:field="*{comment}" rows="3" placeholder="Tell us about your ride..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Submit Review</button>
+        </form>
+        <p th:if="${param.error}" style="color: red; margin-top: 10px;">
+            Error: Ensure the booking is completed and not already reviewed.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="reviews-list">
+        <div th:each="rev : ${reviews}" class="review-card">
+            <div class="review-header">
+                <strong th:text="${rev.userName}">User</strong>
+                <span class="rating-stars" th:text="${rev.rating} + ' / 5 ★'">5 / 5 ★</span>
+            </div>
+            <p class="review-comment" th:text="${rev.comment}">Great bike, very smooth!</p>
+            <small class="review-date" th:text="${#temporals.format(rev.createdDate, 'dd MMM yyyy')}">Date</small>
+        </div>
+        <div th:if="${#lists.isEmpty(reviews)}">
+            <p>No reviews yet for this bike.</p>
+        </div>
+    </section>
+
+    <div style="margin-top: 20px;">
+        <a th:href="@{/rides}" class="btn-secondary">Back to Rides</a>
+    </div>
+</div>
+</body>
+</html>

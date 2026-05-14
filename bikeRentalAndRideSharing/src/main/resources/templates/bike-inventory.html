@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bike Inventory</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1 th:text="'Welcome, ' + ${username}">Welcome</h1>
+        <nav>
+            <a th:href="@{/rides}" class="btn-secondary">Ride Shares</a>
+            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="ride-grid">
+        <div th:each="bike : ${bikes}" class="ride-card">
+            <div class="card-img-wrapper">
+                <img th:src="${bike.imageURL != null ? bike.imageURL : 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=500'}" alt="Bike Image">
+            </div>
+            <div class="card-content">
+                <h3 th:text="${bike.brand} + ' ' + ${bike.model}">Brand Model</h3>
+                <p class="location-text" th:text="'📍 ' + ${bike.location}">Location</p>
+                <div class="price-container">
+                    <span class="price-tag" th:text="'$' + ${bike.pricePerHour} + '/hr'"></span>
+                    <span class="price-tag" th:text="'$' + ${bike.pricePerDay} + '/day'"></span>
+                </div>
+                <a th:href="@{/bikes/{id}(id=${bike.bikeId})}" class="btn-primary">Rent This Bike</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

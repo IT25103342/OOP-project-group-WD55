@@ -1,0 +1,182 @@
+/* =========================================
+   1. CORE VARIABLES & GLOBAL RESET
+   ========================================= */
+:root {
+    --primary: #2ecc71;       /* Sporty Green */
+    --secondary: #34495e;     /* Professional Navy */
+    --accent: #3498db;        /* Action Blue */
+    --danger: #e74c3c;        /* Cancel/Error Red */
+    --warning: #f1c40f;       /* Pending Yellow */
+    --bg-light: #f8f9fa;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--secondary);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* =========================================
+   2. NAVIGATION & HEADERS
+   ========================================= */
+header, .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+nav a {
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+/* =========================================
+   3. BUTTONS
+   ========================================= */
+.btn-primary, .btn-secondary, .btn-logout, .btn-cancel {
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #27ae60; }
+
+.btn-secondary { background: var(--secondary); color: white; }
+.btn-logout { background: #95a5a6; color: white; }
+.btn-cancel { background: var(--danger); color: white; }
+
+/* =========================================
+   4. AUTHENTICATION (Login/Register)
+   ========================================= */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--secondary), #2c3e50);
+}
+
+.auth-container {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form .form-group { margin-bottom: 15px; }
+.auth-form label { display: block; margin-bottom: 5px; font-weight: bold; }
+.auth-form input, .auth-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+}
+
+/* =========================================
+   5. INVENTORY & RIDE GRIDS
+   ========================================= */
+.ride-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.ride-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content, .card-body { padding: 20px; }
+
+/* =========================================
+   6. TABLES (Bookings & Billing)
+   ========================================= */
+.booking-table-container {
+    background: var(--white);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th, .styled-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.styled-table th { background: #fdfdfd; color: #777; }
+
+/* =========================================
+   7. STATUS BADGES
+   ========================================= */
+.status-badge, .status-tag {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.available, .status-badge.completed, .status-badge.paid {
+    background: #e8f8f0; color: var(--primary);
+}
+.status-badge.pending, .status-badge.open {
+    background: #fef9e7; color: var(--warning);
+}
+.status-badge.cancelled, .status-badge.unpaid {
+    background: #fdedec; color: var(--danger);
+}
+
+/* =========================================
+   8. REVIEWS
+   ========================================= */
+.review-card {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.rating-stars { color: var(--warning); font-weight: bold; }

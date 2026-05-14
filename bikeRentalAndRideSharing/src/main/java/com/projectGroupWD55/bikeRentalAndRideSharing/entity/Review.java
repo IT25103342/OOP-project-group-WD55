@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-// id, user (FK), bike (FK), booking (FK), rating, comment, createdAt, updatedAt
 @Entity
 @Getter
 @Setter

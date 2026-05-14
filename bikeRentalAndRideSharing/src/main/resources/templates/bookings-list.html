@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Bookings</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>My Rental History</h1>
+        <a th:href="@{/rides}" class="btn-secondary">Back to Rides</a>
+    </header>
+
+    <div class="booking-table-container">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Bike Model</th>
+                <th>Start Time</th>
+                <th>Duration</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="'#' + ${booking.id}">#1</td>
+                <td th:text="${booking.bikeModel}">Mountain Bike</td>
+                <td th:text="${#temporals.format(booking.startTime, 'dd MMM HH:mm')}">Date</td>
+                <td th:text="${booking.durationHours} + ' hrs'">2 hrs</td>
+                <td th:text="'$' + ${booking.totalPrice}">$20.00</td>
+                <td>
+                            <span th:class="'status-badge ' + ${#strings.toLowerCase(booking.bookingStatus)}"
+                                  th:text="${booking.bookingStatus}">PENDING</span>
+                </td>
+                <td>
+                    <form th:if="${booking.bookingStatus.toString() == 'PENDING' || booking.bookingStatus.toString() == 'ACTIVE'}"
+                          th:action="@{/bookings/{id}/cancel(id=${booking.id})}" method="post">
+                        <input type="hidden" name="userId" th:value="${userId}"/>
+                        <button type="submit" class="btn-cancel" onclick="return confirm('Are you sure?')">Cancel</button>
+                    </form>
+
+                    <a th:if="${booking.bookingStatus.toString() == 'COMPLETED'}"
+                       th:href="@{/reviews/bike/1}" class="btn-review">Review</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(bookings)}">
+                <td colspan="7" style="text-align: center;">No bookings found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

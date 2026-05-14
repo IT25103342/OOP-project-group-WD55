@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Billing & Invoices</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Billing History</h1>
+        <a th:href="@{/bookings/user/{id}(id=${userId})}" class="btn-secondary">My Bookings</a>
+    </header>
+
+    <div class="booking-table-container">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Booking ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="invoice : ${invoices}">
+                <td th:text="'#INV-' + ${invoice.id}">#INV-1</td>
+                <td th:text="'#' + ${invoice.booking.id}">#1</td>
+                <td th:text="${#temporals.format(invoice.paymentDate, 'dd MMM yyyy HH:mm')}">Date</td>
+                <td th:text="'$' + ${#numbers.formatDecimal(invoice.amount, 1, 2)}">$0.00</td>
+                <td>
+                            <span th:class="'status-badge ' + ${#strings.toLowerCase(invoice.status)}"
+                                  th:text="${invoice.status}">UNPAID</span>
+                </td>
+                <td>
+                    <form th:if="${invoice.status == 'UNPAID'}"
+                          th:action="@{/billing/{id}/pay(id=${invoice.id})}" method="post">
+                        <input type="hidden" name="userId" th:value="${userId}"/>
+                        <button type="submit" class="btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Pay Now</button>
+                    </form>
+                    <span th:if="${invoice.status == 'PAID'}" style="color: #166534; font-weight: bold;">✔ Receipt Ready</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(invoices)}">
+                <td colspan="6" style="text-align: center;">No invoices found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -52,7 +52,7 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDTO> getReviewsByBike(Long bikeID){
-        List<ReviewResponseDTO> list = reviewRepository.findByBikeId(bikeID).stream().map(this::maptoReviewResponseDTO).collect(Collectors.toList());
+        List<ReviewResponseDTO> list = reviewRepository.findByBikeBikeId(bikeID).stream().map(this::maptoReviewResponseDTO).collect(Collectors.toList());
         return list;
     }
 

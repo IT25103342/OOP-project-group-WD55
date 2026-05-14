@@ -10,4 +10,5 @@ import java.util.List;
 public interface BikeRepository extends JpaRepository<Bike, Long> {
     List<Bike> findByStatus(BikeStatus status);
     List<Bike> findByLocation(String location);
+
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rent Bike</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="detail-card">
+        <div class="detail-header">
+            <a th:href="@{/bikes}" class="back-link">← Back to Fleet</a>
+            <h1 th:text="${bike.brand} + ' ' + ${bike.model}">Bike Details</h1>
+        </div>
+
+        <div class="detail-body">
+            <img th:src="${bike.imageURL}" class="detail-img" alt="Bike">
+
+            <div class="booking-section">
+                <div class="info-group">
+                    <p><strong>Current Location:</strong> <span th:text="${bike.location}"></span></p>
+                    <p><strong>Price per Hour:</strong> $<span th:text="${bike.pricePerHour}"></span></p>
+                </div>
+
+                <form th:action="@{/api/bookings}" method="post" class="standard-form">
+                    <input type="hidden" name="bikeId" th:value="${bike.bikeId}" />
+                    <input type="hidden" name="userId" th:value="${userId}" />
+
+                    <div class="form-group">
+                        <label>Pickup Time</label>
+                        <input type="datetime-local" name="startTime" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Expected Return</label>
+                        <input type="datetime-local" name="endTime" required />
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%;">Confirm Rental</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

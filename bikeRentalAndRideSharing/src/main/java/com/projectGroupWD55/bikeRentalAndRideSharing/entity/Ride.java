@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name="rides")
 public class Ride {
-    //id, poster (FK→User), pickup, destination, rideTime, seatsAvailable, status, createdAt
     @Id              //this makes the spring booticus generate its own id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

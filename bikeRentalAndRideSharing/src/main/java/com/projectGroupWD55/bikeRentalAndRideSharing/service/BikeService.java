@@ -12,12 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//addBike(BikeRequestDTO) → save new bike
-//getAllBikes() → return full fleet
-//getAvailableBikes() → filter by AVAILABLE status
-//getBikeById(Long id) → single bike details
-//updateBike(Long id, BikeRequestDTO) → edit bike info
-//archiveBike(Long id) → set status to ARCHIVED
+
 @Service
 public class BikeService {
 

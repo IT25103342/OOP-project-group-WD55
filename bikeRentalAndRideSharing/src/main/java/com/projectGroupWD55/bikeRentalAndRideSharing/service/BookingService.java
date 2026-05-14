@@ -60,12 +60,11 @@ public class BookingService {
 
         return bookingResponseDTO;
 
-    //id, userName, bikeModel, startTime, endTime, durationHours, totalPrice, status
     }
     public boolean checkAvailability(Long bikeId, LocalDateTime startTime, LocalDateTime endTime) {
-        return !bookingRepository.existsByBikeIdAndStatusAndStartTimeLessThanAndEndTimeGreaterThan(
+        return !bookingRepository.existsByBikeBikeIdAndBookingStatusAndStartTimeLessThanAndEndTimeGreaterThan(
                 bikeId, BookingStatus.PENDING, endTime, startTime)
-                && !bookingRepository.existsByBikeIdAndStatusAndStartTimeLessThanAndEndTimeGreaterThan(
+                && !bookingRepository.existsByBikeBikeIdAndBookingStatusAndStartTimeLessThanAndEndTimeGreaterThan(
                 bikeId, BookingStatus.ACTIVE, endTime, startTime);
     }
     public List<BookingResponseDTO> getUserBookings(Long user){
@@ -89,7 +88,7 @@ public class BookingService {
         return mapToResponse(booking);
     }
 
-    //code looked very and took so much time so made this
+    //code looked very ugly and took so much time so made this
     private BookingResponseDTO mapToResponse(Booking booking) {
         BookingResponseDTO response = new BookingResponseDTO();
         response.setId(booking.getId());
@@ -104,6 +103,3 @@ public class BookingService {
     }
 
 }
-
-//updateBookingStatus(Long id, status) → change PENDING → ACTIVE etc.
-//cancelBooking(Long id) → set CANCELLED, set bike back to AVAILABLE
