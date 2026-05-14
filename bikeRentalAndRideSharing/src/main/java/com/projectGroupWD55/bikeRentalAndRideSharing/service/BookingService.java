@@ -39,7 +39,12 @@ public class BookingService {
         newBooking.setStartTime(bookingRequestDTO.getStartTime());
         newBooking.setEndTime(bookingRequestDTO.getEndTime());
         newBooking.setTotalPrice(totalPrice);
+        newBooking.setBookingStatus(BookingStatus.PENDING);
+        newBooking.setDurationHours(durationHours);
         bookingRepository.save(newBooking);
+        bike.setStatus(BikeStatus.RENTED);
+        bikeRepository.save(bike);
+
         BookingResponseDTO bookingResponseDTO = new BookingResponseDTO();
         bookingResponseDTO.setBookingStatus(BookingStatus.ACTIVE);
 

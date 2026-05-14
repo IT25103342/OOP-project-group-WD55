@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private final UserResponse userResponse=new UserResponse();
     private final UserRepository userRepository;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;

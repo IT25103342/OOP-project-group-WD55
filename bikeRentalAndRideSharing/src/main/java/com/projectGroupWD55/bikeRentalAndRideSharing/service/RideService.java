@@ -47,10 +47,9 @@ public class RideService {
     public List<RideResponseDTO> getActiveRides() {
         return rideRepository.findByStatus(RideStatus.OPEN).stream().map(this::maptoresponseDTO).collect(Collectors.toList());
     }
-    public List<RideResponseDTO> searchRides(String pickup, String destination){
-        return rideRepository.findByPickupAndDestination(pickup, destination).stream().map(this::maptoresponseDTO).collect(Collectors.toList());
+    public List<RideResponseDTO> searchRides(String pickup, String destination) {
+        return rideRepository.findByPickupLocationAndDestination(pickup, destination).stream().map(this::maptoresponseDTO).collect(Collectors.toList());
     }
-
 
     public RideResponseDTO joinRide(Long rideId,Long ridePassengerId) {
         Ride ride = rideRepository.findById(rideId).orElseThrow(() -> new RuntimeException("Ride does not exist"));
@@ -79,6 +78,7 @@ public class RideService {
         Ride savedRide = rideRepository.save(ride);
         return maptoresponseDTO(savedRide);
     }
+
     public RideResponseDTO cancelRide(Long rideId,Long ridePassengerId) {
         User1 requester = userRepository.findById(ridePassengerId).orElseThrow(() -> new RuntimeException("User not found"));
         Ride ride=rideRepository.findById(rideId).orElseThrow(() -> new RuntimeException("Ride does not exist"));
@@ -99,6 +99,8 @@ public class RideService {
 
         return maptoresponseDTO(ride);
     }
+
+
 
     private RideResponseDTO maptoresponseDTO(Ride ride) {
         RideResponseDTO rideResponseDTO = new RideResponseDTO();

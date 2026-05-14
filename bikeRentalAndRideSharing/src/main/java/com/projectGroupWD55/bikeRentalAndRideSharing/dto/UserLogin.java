@@ -1,6 +1,6 @@
 package com.projectGroupWD55.bikeRentalAndRideSharing.dto;
 
-import com.projectGroupWD55.bikeRentalAndRideSharing.entity.User1;
+
 import lombok.Getter;
 import lombok.Setter;
 

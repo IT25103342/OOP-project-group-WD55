@@ -38,13 +38,13 @@ public class UserController {
     public ResponseEntity<List<User1>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
-    @GetMapping
+    @GetMapping("/date")
     public ResponseEntity<List<User1>> getUsersByDateCreated(@PathVariable LocalDateTime dateCreated) {
         return ResponseEntity.ok(userService.getUserByDateCreated(dateCreated));
     }
-    @DeleteMapping
-    public void deleteUser(@RequestBody User1 user) {
-        userService.deleteUser(user.getId());
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UserLogin userLogin) {

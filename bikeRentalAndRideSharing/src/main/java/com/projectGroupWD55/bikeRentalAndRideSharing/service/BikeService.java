@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //addBike(BikeRequestDTO) → save new bike
 //getAllBikes() → return full fleet
@@ -51,11 +52,18 @@ public class BikeService {
         return response;
 
     }
-    public List<Bike> getAllBike() {
-        return bikeRepository.findAll();
+    public List<BikeResponseDTO> getAllBike() {
+        return bikeRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
-    public List<Bike> getAllBikesAvailable() {
-        return bikeRepository.findByStatus(BikeStatus.AVAILABLE);
+
+    public List<BikeResponseDTO> getAllBikesAvailable() {
+        return bikeRepository.findByStatus(BikeStatus.AVAILABLE)
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
     public BikeResponseDTO getBikeById(Long id) {
         Bike boik =bikeRepository.findById(id)
@@ -127,5 +135,20 @@ public class BikeService {
         bikeResponseDTO.setStatus(savedBike.getStatus());
 
         return bikeResponseDTO;
+    }
+
+
+
+    private BikeResponseDTO mapToResponse(Bike bike) {
+        BikeResponseDTO response = new BikeResponseDTO();
+        response.setBikeId(bike.getBikeId());
+        response.setBrand(bike.getBrand());
+        response.setModel(bike.getModel());
+        response.setLocation(bike.getLocation());
+        response.setPricePerDay(bike.getPricePerDay());
+        response.setPricePerHour(bike.getPricePerHour());
+        response.setImageURL(bike.getImageURL());
+        response.setStatus(bike.getStatus());
+        return response;
     }
 }

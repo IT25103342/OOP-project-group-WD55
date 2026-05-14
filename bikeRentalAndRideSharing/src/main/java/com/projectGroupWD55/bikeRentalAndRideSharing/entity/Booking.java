@@ -3,8 +3,6 @@ package com.projectGroupWD55.bikeRentalAndRideSharing.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.User;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +18,7 @@ public class Booking {
     private LocalDateTime endTime;
     private Long durationHours;
     private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
     private Double totalPrice;
 

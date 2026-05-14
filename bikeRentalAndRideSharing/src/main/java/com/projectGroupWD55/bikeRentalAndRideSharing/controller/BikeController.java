@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/BikeInventory")
 public class BikeController {
-    private BikeService bikeService;
+    private final BikeService bikeService;
     public BikeController(BikeService bikeService) {
         this.bikeService = bikeService;
     }
@@ -20,11 +20,11 @@ public class BikeController {
         return bikeService.addBike(bikeRequestDTO);
     }
     @GetMapping("/all")
-    public List<Bike> GetAllBike() {
+    public List<BikeResponseDTO> GetAllBike() {
         return bikeService.getAllBike();
     }
     @GetMapping("/available")
-    public List<Bike> GetAllAvailableBikes() {
+    public List<BikeResponseDTO> GetAllAvailableBikes() {
         return bikeService.getAllBikesAvailable();
     }
     @GetMapping("/{id}")
@@ -42,12 +42,3 @@ public class BikeController {
 
 
 }
-//Controller
-//BikeController.java
-//
-//POST /api/bikes → add bike
-//GET /api/bikes → view all bikes
-//GET /api/bikes/available → view available only
-//GET /api/bikes/{id} → single bike
-//PUT /api/bikes/{id} → update bike
-//DELETE /api/bikes/{id} → archive bike

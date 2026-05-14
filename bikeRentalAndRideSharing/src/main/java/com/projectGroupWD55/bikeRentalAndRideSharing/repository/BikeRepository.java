@@ -1,5 +1,6 @@
 package com.projectGroupWD55.bikeRentalAndRideSharing.repository;
 
+import com.projectGroupWD55.bikeRentalAndRideSharing.dto.BikeResponseDTO;
 import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Bike;
 import com.projectGroupWD55.bikeRentalAndRideSharing.entity.BikeStatus;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -18,4 +18,3 @@ public class BookingResponseDTO {
     private Double totalPrice;
     private BookingStatus bookingStatus;
 }
-//id, userName, bikeModel, startTime, endTime, durationHours, totalPrice, status

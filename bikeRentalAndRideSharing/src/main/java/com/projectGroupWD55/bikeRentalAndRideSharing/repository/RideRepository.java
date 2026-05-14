@@ -10,6 +10,6 @@ import java.util.List;
 public interface RideRepository extends JpaRepository<Ride, Long> {
     List<Ride> findByStatus(RideStatus status);
     List<Ride> findByPosterId(Long userId);
-    List<Ride> findByPickupAndDestination(String pickup, String destination);
+    List<Ride> findByPickupLocationAndDestination(String pickupLocation, String destination);
 
 }
