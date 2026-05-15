@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BikeRide | Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <div class="logo">
+            <h1 style="color: var(--primary);">Bike<span style="color: var(--secondary);">Ride</span></h1>
+        </div>
+        <nav>
+            <a href="/bikes" class="btn-secondary">Rent a Bike</a>
+            <a href="/rides" class="btn-primary">Share a Ride</a>
+            <a href="/login" class="btn-logout">Login</a>
+        </nav>
+    </header>
+
+    <section class="hero-section" style="text-align: center; padding: 60px 0;">
+        <h1>Ready for your next adventure?</h1>
+        <p>Eco-friendly travel for the modern commuter.</p>
+    </section>
+
+    <div class="ride-grid">
+        <div class="ride-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=500&q=80" alt="Mountain Bike">
+            </div>
+            <div class="card-content">
+                <h3>Explore Local Bikes</h3>
+                <p>High-quality mountain and road bikes available near you.</p>
+                <span class="status-badge available">Available Now</span>
+                <br><br>
+                <a href="/bikes" class="btn-primary">View Inventory</a>
+            </div>
+        </div>
+
+        <div class="ride-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=500&q=80" alt="Ride Sharing">
+            </div>
+            <div class="card-content">
+                <h3>Join a Ride</h3>
+                <p>Find commuters heading your way and split the cost.</p>
+                <span class="status-badge open">3 Rides Open</span>
+                <br><br>
+                <a href="/rides" class="btn-secondary">Join Community</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

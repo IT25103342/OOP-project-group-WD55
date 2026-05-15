@@ -1,7 +1,6 @@
 package com.projectGroupWD55.bikeRentalAndRideSharing.controller;
 import com.projectGroupWD55.bikeRentalAndRideSharing.dto.BikeRequestDTO;
 import com.projectGroupWD55.bikeRentalAndRideSharing.dto.BikeResponseDTO;
-import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Bike;
 import com.projectGroupWD55.bikeRentalAndRideSharing.service.BikeService;
 import org.springframework.web.bind.annotation.*;
 
