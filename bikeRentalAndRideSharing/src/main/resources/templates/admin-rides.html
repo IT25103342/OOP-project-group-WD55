@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Rides</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Active Rides</h1>
+    <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Poster</th>
+            <th>Pickup</th>
+            <th>Destination</th>
+            <th>Ride Time</th>
+            <th>Seats</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="ride : ${rides}">
+            <td th:text="${ride.id}"></td>
+            <td th:text="${ride.posterName}"></td>
+            <td th:text="${ride.pickupLocation}"></td>
+            <td th:text="${ride.destinationLocation}"></td>
+            <td th:text="${ride.rideTime}"></td>
+            <td th:text="${ride.seatsAvailable}"></td>
+            <td th:text="${ride.status}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

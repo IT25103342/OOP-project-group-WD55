@@ -30,6 +30,10 @@ public class UserWebController {
             UserResponse response = userService.verifyUser(userLogin);
             session.setAttribute("loggedInUser", response);
 
+            // redirect admin to dashboard, users to rides
+            if ("ADMIN".equals(response.getRole())) {
+                return "redirect:/admin/dashboard";
+            }
             return "redirect:/rides";
         } catch (Exception e) {
             return "redirect:/login?error=true";

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Post a Ride</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+  <h2>Post a New Ride</h2>
+
+  <form th:action="@{/rides/save}" th:object="${rideRequest}" method="post">
+
+    <div class="form-group">
+      <label>Pickup Location</label>
+      <input type="text" th:field="*{pickupLocation}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Destination</label>
+      <input type="text" th:field="*{destinationLocation}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Ride Time</label>
+      <input type="datetime-local" th:field="*{rideTime}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Seats Available</label>
+      <input type="number" th:field="*{seatsAvailable}" min="1" required/>
+    </div>
+
+    <button type="submit" class="btn-primary">Post Ride</button>
+    <a th:href="@{/rides}">Cancel</a>
+  </form>
+</div>
+</body>
+</html>

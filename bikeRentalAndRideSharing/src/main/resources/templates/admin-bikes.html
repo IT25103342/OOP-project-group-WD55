@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Manage Bikes</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+  <h1>Bike Inventory</h1>
+  <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+
+  <!-- Add Bike Form -->
+  <h2>Add New Bike</h2>
+  <form th:action="@{/admin/bikes/add}" th:object="${newBike}" method="post">
+    <input type="text" th:field="*{brand}" placeholder="Brand" required/>
+    <input type="text" th:field="*{model}" placeholder="Model" required/>
+    <input type="number" th:field="*{pricePerHour}" placeholder="Price Per Hour" step="0.01" required/>
+    <input type="number" th:field="*{pricePerDay}" placeholder="Price Per Day" step="0.01" required/>
+    <input type="text" th:field="*{location}" placeholder="Location" required/>
+    <input type="text" th:field="*{imageURL}" placeholder="Image URL"/>
+    <button type="submit">Add Bike</button>
+  </form>
+
+  <!-- Bike List -->
+  <h2>All Bikes</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Status</th>
+      <th>Price/Hour</th>
+      <th>Price/Day</th>
+      <th>Location</th>
+      <th>Action</th>
+    </tr>
+    <tr th:each="bike : ${bikes}">
+      <td th:text="${bike.bikeId}"></td>
+      <td th:text="${bike.brand}"></td>
+      <td th:text="${bike.model}"></td>
+      <td th:text="${bike.status}"></td>
+      <td th:text="${bike.pricePerHour}"></td>
+      <td th:text="${bike.pricePerDay}"></td>
+      <td th:text="${bike.location}"></td>
+      <td>
+        <a th:href="@{/admin/bikes/archive/{id}(id=${bike.bikeId})}">Archive</a>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
