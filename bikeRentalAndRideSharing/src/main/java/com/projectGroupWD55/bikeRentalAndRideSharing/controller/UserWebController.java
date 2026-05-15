@@ -30,14 +30,20 @@ public class UserWebController {
             UserResponse response = userService.verifyUser(userLogin);
             session.setAttribute("loggedInUser", response);
 
-            // redirect admin to dashboard, users to rides
             if ("ADMIN".equals(response.getRole())) {
                 return "redirect:/admin/dashboard";
             }
-            return "redirect:/rides";
+            return "redirect:/";  // redirect to index.html instead of /rides
+
         } catch (Exception e) {
             return "redirect:/login?error=true";
         }
+    }
+    @GetMapping("/user/home")
+    public String home(HttpSession session, Model model) {
+        UserResponse user = (UserResponse) session.getAttribute("loggedInUser");
+        model.addAttribute("user", user);
+        return "index";
     }
 
     // --- REGISTRATION ---

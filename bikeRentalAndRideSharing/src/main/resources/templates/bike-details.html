@@ -21,7 +21,7 @@
                     <p><strong>Price per Hour:</strong> $<span th:text="${bike.pricePerHour}"></span></p>
                 </div>
 
-                <form th:action="@{/api/bookings}" method="post" class="standard-form">
+                <form th:action="@{/bookings/rent}" method="post" class="standard-form">
                     <input type="hidden" name="bikeId" th:value="${bike.bikeId}" />
                     <input type="hidden" name="userId" th:value="${userId}" />
 

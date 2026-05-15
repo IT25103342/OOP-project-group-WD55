@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BillingAndInvoiceRepository extends JpaRepository<BillingAndInvoice, Long> {
     List<BillingAndInvoice> findByUserId(Long userId);
+
 }

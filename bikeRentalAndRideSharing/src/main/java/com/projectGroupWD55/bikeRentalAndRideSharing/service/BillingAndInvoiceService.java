@@ -4,6 +4,7 @@ import com.projectGroupWD55.bikeRentalAndRideSharing.entity.Booking;
 import com.projectGroupWD55.bikeRentalAndRideSharing.entity.BillingAndInvoice;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.BookingRepository;
 import com.projectGroupWD55.bikeRentalAndRideSharing.repository.BillingAndInvoiceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,4 +44,10 @@ public class BillingAndInvoiceService {
         invoice.setStatus(status.toUpperCase());
         return repository.save(invoice);
     }
+    @Transactional
+    public BillingAndInvoice getInvoiceById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+    }
+
 }

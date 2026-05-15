@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Confirm Payment</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+  <div class="invoice-box">
+    <h1>Invoice Summary</h1>
+
+    <table class="invoice-table">
+      <tr>
+        <td><strong>Invoice ID:</strong></td>
+        <td th:text="${invoice.id}"></td>
+      </tr>
+      <tr>
+        <td><strong>Customer:</strong></td>
+        <td th:text="${invoice.user.username}"></td>
+      </tr>
+      <tr>
+        <td><strong>Bike:</strong></td>
+        <td th:text="${invoice.booking.bike.model}"></td>
+      </tr>
+      <tr>
+        <td><strong>Start Time:</strong></td>
+        <td th:text="${invoice.booking.startTime}"></td>
+      </tr>
+      <tr>
+        <td><strong>End Time:</strong></td>
+        <td th:text="${invoice.booking.endTime}"></td>
+      </tr>
+      <tr>
+        <td><strong>Duration:</strong></td>
+        <td th:text="${invoice.booking.durationHours + ' hours'}"></td>
+      </tr>
+      <tr>
+        <td><strong>Status:</strong></td>
+        <td th:text="${invoice.status}"></td>
+      </tr>
+      <tr class="total-row">
+        <td><strong>Total Amount:</strong></td>
+        <td><strong>$<span th:text="${invoice.amount}"></span></strong></td>
+      </tr>
+    </table>
+
+    <form th:action="@{/bookings/confirm/{id}(id=${invoice.id})}" method="post">
+      <div class="form-group">
+        <label>Payment Method</label>
+        <select name="paymentMethod" required>
+          <option value="CASH">Cash</option>
+          <option value="CARD">Card</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn-primary">Confirm & Pay</button>
+      </div>
+    </form>
+
+    <a th:href="@{/bookings/cancel-invoice/{id}(id=${invoice.id})}"
+       class="btn-danger"
+       onclick="return confirm('Are you sure you want to cancel this booking?')">
+      Cancel Booking
+    </a>
+  </div>
+</div>
+</body>
+</html>

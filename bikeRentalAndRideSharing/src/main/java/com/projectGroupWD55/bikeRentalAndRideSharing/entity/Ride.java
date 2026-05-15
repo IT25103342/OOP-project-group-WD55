@@ -28,6 +28,7 @@ public class Ride {
     private RideStatus status;
 
     private LocalDateTime createdAt;
+    private Double feePerSeat;
 
 
 

@@ -36,6 +36,7 @@ public class RideService {
         ride.setPickupLocation(rideRequestDTO.getPickupLocation());
         ride.setRideTime(rideRequestDTO.getRideTime());
         ride.setStatus(RideStatus.OPEN);
+        ride.setSeatsAvailable(rideRequestDTO.getSeatsAvailable());
         ride.setCreatedAt(LocalDateTime.now());
 
         Ride savedRide = rideRepository.save(ride);

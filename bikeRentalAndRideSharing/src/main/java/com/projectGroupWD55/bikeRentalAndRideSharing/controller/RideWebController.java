@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/rides")
@@ -42,10 +43,16 @@ public class RideWebController {
     }
 
     @PostMapping("/{id}/join")
-    public String joinRide(@PathVariable Long id, HttpSession session) {
+    public String joinRide(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         UserResponse user = (UserResponse) session.getAttribute("loggedInUser");
         if (user == null) return "redirect:/login";
-        rideService.joinRide(id, user.getId());
+
+        try {
+            rideService.joinRide(id, user.getId());
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
         return "redirect:/rides";
     }
 }
