@@ -8,24 +8,48 @@
 <div class="container">
     <header>
         <h1>Available Rides</h1>
-        <a th:href="@{/rides/new}" class="btn-primary">Post a New Ride</a>
+        <nav>
+            <a th:href="@{/rides/new}" class="btn-primary">Post a New Ride</a>
+            <a th:href="@{/my-profile}" class="btn-secondary">My Profile</a>
+            <a th:href="@{/bikes}" class="btn-secondary">Rent a Bike</a>
+            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </nav>
     </header>
+
+    <div th:if="${error}" class="alert-error" th:text="${error}"></div>
 
     <div class="ride-grid">
         <div th:each="ride : ${rides}" class="ride-card">
             <div class="card-header">
-                <h3 th:text="${ride.pickupLocation} + ' ➔ ' + ${ride.destinationLocation}">Pickup to Dest</h3>
-                <span class="status-tag" th:text="${ride.status}">OPEN</span>
+                <h3 th:text="${ride.pickupLocation} + ' ➔ ' + ${ride.destinationLocation}"></h3>
+                <span class="status-tag" th:text="${ride.status}"></span>
             </div>
+
             <div class="card-body">
-                <p><strong>Driver:</strong> <span th:text="${ride.posterName}">Name</span></p>
-                <p><strong>Time:</strong> <span th:text="${#temporals.format(ride.rideTime, 'dd MMM yyyy HH:mm')}">Time</span></p>
-                <p><strong>Seats Left:</strong> <span th:text="${ride.seatsAvailable}">0</span></p>
+                <p><strong>Posted by:</strong> <span th:text="${ride.posterName}"></span></p>
+                <p><strong>Time:</strong> <span th:text="${ride.rideTime}"></span></p>
+                <p><strong>Seats Left:</strong> <span th:text="${ride.seatsAvailable}"></span></p>
+                <p><strong>Fee per Seat:</strong> $<span th:text="${ride.feePerSeat}"></span></p>
+
+                <!-- Passengers Section -->
+                <div class="passengers-section">
+                    <strong>Passengers:</strong>
+                    <span th:if="${#lists.isEmpty(ride.passengerNames)}">
+                        No passengers yet
+                    </span>
+                    <ul th:unless="${#lists.isEmpty(ride.passengerNames)}">
+                        <li th:each="name : ${ride.passengerNames}" th:text="${name}"></li>
+                    </ul>
+                </div>
             </div>
+
             <div class="card-footer">
                 <form th:action="@{/rides/{id}/join(id=${ride.id})}" method="post">
-                    <input type="hidden" name="passengerId" value="1"/>
-                    <button type="submit" class="btn-join" th:disabled="${ride.seatsAvailable <= 0}">Join Ride</button>
+                    <button type="submit"
+                            class="btn-join"
+                            th:disabled="${ride.seatsAvailable <= 0}">
+                        Join Ride
+                    </button>
                 </form>
             </div>
         </div>

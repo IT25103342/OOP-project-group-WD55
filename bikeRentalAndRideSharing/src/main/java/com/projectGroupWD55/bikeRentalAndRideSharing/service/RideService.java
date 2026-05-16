@@ -116,6 +116,11 @@ public class RideService {
         rideResponseDTO.setStatus(ride.getStatus());
         rideResponseDTO.setSeatsAvailable(ride.getSeatsAvailable());
         rideResponseDTO.setPassengerCount(ride.getPassengerCount());
+
+        List<String> passengerNames = ridePassengerRepository.findByRideId(ride.getId()).stream().map(ridePassenger -> ridePassenger.getPassenger().getUsername()).collect(Collectors.toList());
+        rideResponseDTO.setPassengerNames(passengerNames);
+
+
         return rideResponseDTO;
     }
 }
