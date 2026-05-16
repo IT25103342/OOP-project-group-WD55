@@ -38,10 +38,28 @@ public class RideService {
         ride.setStatus(RideStatus.OPEN);
         ride.setSeatsAvailable(rideRequestDTO.getSeatsAvailable());
         ride.setCreatedAt(LocalDateTime.now());
+        if (rideRequestDTO.getFeePerSeat() != null) {
+            ride.setFeePerSeat(rideRequestDTO.getFeePerSeat());
+        } else {
+            ride.setFeePerSeat(0.0);
+        };
 
         Ride savedRide = rideRepository.save(ride);
 
         return maptoresponseDTO(savedRide);
+    }
+    public List<RideResponseDTO> getRidesByUser(Long userId) {
+        return rideRepository.findByPosterId(userId)
+                .stream()
+                .map(this::maptoresponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<RideResponseDTO> getJoinedRides(Long userId) {
+        return ridePassengerRepository.findByPassengerId(userId)
+                .stream()
+                .map(ridePassenger -> maptoresponseDTO(ridePassenger.getRide()))
+                .collect(Collectors.toList());
     }
 
 
@@ -116,6 +134,7 @@ public class RideService {
         rideResponseDTO.setStatus(ride.getStatus());
         rideResponseDTO.setSeatsAvailable(ride.getSeatsAvailable());
         rideResponseDTO.setPassengerCount(ride.getPassengerCount());
+        rideResponseDTO.setFeePerSeat(ride.getFeePerSeat());
 
         List<String> passengerNames = ridePassengerRepository.findByRideId(ride.getId()).stream().map(ridePassenger -> ridePassenger.getPassenger().getUsername()).collect(Collectors.toList());
         rideResponseDTO.setPassengerNames(passengerNames);

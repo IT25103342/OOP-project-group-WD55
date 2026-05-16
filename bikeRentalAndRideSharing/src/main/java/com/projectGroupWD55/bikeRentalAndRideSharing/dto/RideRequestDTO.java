@@ -13,4 +13,5 @@ public class RideRequestDTO {
     private String destinationLocation;
     private LocalDateTime rideTime;
     private int seatsAvailable;
+    private Double feePerSeat;
 }

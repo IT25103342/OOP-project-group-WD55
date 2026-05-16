@@ -29,7 +29,7 @@
                 <p><strong>Posted by:</strong> <span th:text="${ride.posterName}"></span></p>
                 <p><strong>Time:</strong> <span th:text="${ride.rideTime}"></span></p>
                 <p><strong>Seats Left:</strong> <span th:text="${ride.seatsAvailable}"></span></p>
-                <p><strong>Fee per Seat:</strong> $<span th:text="${ride.feePerSeat}"></span></p>
+                <p><strong>Fee per Seat:</strong> $<span th:text="${ride.feePerSeat ?: '0.00'}"></span></p>
 
                 <!-- Passengers Section -->
                 <div class="passengers-section">

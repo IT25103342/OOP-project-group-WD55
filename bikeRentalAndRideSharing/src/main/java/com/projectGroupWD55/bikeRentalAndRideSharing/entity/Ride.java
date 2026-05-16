@@ -25,11 +25,12 @@ public class Ride {
     private int seatsAvailable;
     private int passengerCount;
 
+
     @Enumerated(EnumType.STRING)
     private RideStatus status;
 
     private LocalDateTime createdAt;
-    private Double feePerSeat;
+    private Double feePerSeat=0.0;
 
 
 

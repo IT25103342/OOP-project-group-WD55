@@ -2,6 +2,9 @@ package com.projectGroupWD55.bikeRentalAndRideSharing.controller;
 
 import com.projectGroupWD55.bikeRentalAndRideSharing.dto.UserLogin;
 import com.projectGroupWD55.bikeRentalAndRideSharing.dto.UserResponse;
+import com.projectGroupWD55.bikeRentalAndRideSharing.service.BillingAndInvoiceService;
+import com.projectGroupWD55.bikeRentalAndRideSharing.service.BookingService;
+import com.projectGroupWD55.bikeRentalAndRideSharing.service.RideService;
 import com.projectGroupWD55.bikeRentalAndRideSharing.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -12,8 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserWebController {
 
     private final UserService userService;
+    private final BookingService bookingService;
+    private final RideService rideService;
+    private final BillingAndInvoiceService billingService;
 
-    public UserWebController(UserService userService) {
+    public UserWebController(UserService userService, BookingService bookingService, RideService rideService, BillingAndInvoiceService billingService) {
+        this.bookingService = bookingService;
+        this.rideService = rideService;
+        this.billingService = billingService;
         this.userService = userService;
     }
 
@@ -38,6 +47,19 @@ public class UserWebController {
         } catch (Exception e) {
             return "redirect:/login?error=true";
         }
+    }
+    @GetMapping("/my-profile")
+    public String myProfile(HttpSession session, Model model) {
+        UserResponse user = (UserResponse) session.getAttribute("loggedInUser");
+        if (user == null) return "redirect:/login";
+
+        model.addAttribute("user", user);
+        model.addAttribute("bookings", bookingService.getUserBookings(user.getId()));
+        model.addAttribute("myRides", rideService.getRidesByUser(user.getId()));
+        model.addAttribute("joinedRides", rideService.getJoinedRides(user.getId()));
+        model.addAttribute("invoices", billingService.getHistory(user.getId()));
+
+        return "my-profile";
     }
     @GetMapping("/user/home")
     public String home(HttpSession session, Model model) {
