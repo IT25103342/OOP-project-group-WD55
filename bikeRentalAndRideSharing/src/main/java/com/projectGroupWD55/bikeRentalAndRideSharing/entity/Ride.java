@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Table(name="rides")
 public class Ride {
-    @Id              //this makes the spring booticus generate its own id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)

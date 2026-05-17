@@ -23,8 +23,6 @@ public class AdminWebController {
         this.bikeService = bikeService;
         this.rideService = rideService;
     }
-
-    // helper to block non-admins
     private boolean isAdmin(HttpSession session) {
         UserResponse user = (UserResponse) session.getAttribute("loggedInUser");
         return user != null && "ADMIN".equals(user.getRole());
