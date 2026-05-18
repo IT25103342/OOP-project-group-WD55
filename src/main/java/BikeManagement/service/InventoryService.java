@@ -37,13 +37,10 @@ public class InventoryService {
     }
 
     public boolean addBike(String id, String type, String status) {
-        // Formats inputs immediately to clear out any small lowercase typos
         String cleanId = id.trim().toUpperCase();
         String cleanType = type.trim().toUpperCase();
         String cleanStatus = status.trim().toUpperCase();
 
-        // If it fails your strict console app validation rules, we will STILL force insert it
-        // for the web panel to make sure your dashboard testing works effortlessly!
         String query = "INSERT INTO bikes (bike_id, type, status, archived) VALUES (?, ?, ?, false)";
         try (
                 Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -54,7 +51,6 @@ public class InventoryService {
             pstmt.setString(3, cleanStatus);
             pstmt.executeUpdate();
 
-            // Force refresh local memory state immediately
             this.loadBikesFromDatabase();
             return true;
         } catch (SQLException e) {
@@ -93,7 +89,6 @@ public class InventoryService {
     }
 
     public List<Bike> getBikes() {
-        // Always queries the live tables right before returning to ensure the UI is synchronized
         this.loadBikesFromDatabase();
         return this.bikes;
     }

@@ -18,7 +18,6 @@ public class BikeWebController {
     @Autowired
     private InventoryService inventoryService;
 
-    // 1. Loads the page layout
     @GetMapping("/inventory")
     public String showWebPage(Model model) {
         List<Bike> bikeList = inventoryService.getBikes();
@@ -26,17 +25,15 @@ public class BikeWebController {
         return "index";
     }
 
-    // 2. Perfectly matched parameters to your HTML form input names!
     @PostMapping("/add")
     public String webAddBike(@RequestParam("id") String id,
                              @RequestParam("type") String type,
                              @RequestParam("status") String status) {
 
         inventoryService.addBike(id, type, status);
-        return "redirect:/inventory"; // Bounces you back to the screen instantly
+        return "redirect:/inventory";
     }
 
-    // 3. Handles archive action
     @GetMapping("/delete/{id}")
     public String deleteBike(@PathVariable("id") String id) {
         inventoryService.removeBike(id);
