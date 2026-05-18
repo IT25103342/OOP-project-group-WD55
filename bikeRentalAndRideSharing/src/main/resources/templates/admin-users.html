@@ -6,29 +6,41 @@
 </head>
 <body>
 <div class="container">
-    <h1>All Users</h1>
-    <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+    <header>
+        <h1>All Users</h1>
+        <nav>
+            <a th:href="@{/admin/dashboard}" class="btn-secondary">Back to Dashboard</a>
+            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </nav>
+    </header>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Created</th>
-            <th>Action</th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.role}"></td>
-            <td th:text="${user.createdDate}"></td>
-            <td>
-                <a th:href="@{/admin/users/delete/{id}(id=${user.id})}">Delete</a>
-            </td>
-        </tr>
-    </table>
+    <div class="booking-table-container">
+        <table class="styled-table">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Created</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <span class="status-badge"
+                          th:text="${user.role}"
+                          th:classappend="${user.role == 'ADMIN'} ? 'pending' : 'available'">
+                    </span>
+                </td>
+                <td th:text="${user.createdDate}"></td>
+                <td>
+                    <a th:href="@{/admin/users/delete/{id}(id=${user.id})}" class="btn-cancel">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>

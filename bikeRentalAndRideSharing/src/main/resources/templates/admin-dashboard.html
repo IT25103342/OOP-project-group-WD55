@@ -6,7 +6,16 @@
 </head>
 <body>
 <div class="container">
-    <h1>Admin Dashboard</h1>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <a th:href="@{/admin/users}" class="btn-secondary">Manage Users</a>
+            <a th:href="@{/admin/bikes}" class="btn-secondary">Manage Bikes</a>
+            <a th:href="@{/admin/rides}" class="btn-secondary">View Rides</a>
+            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </nav>
+    </header>
+
     <div class="dashboard-stats">
         <div class="stat-card">
             <h3>Total Users</h3>
@@ -24,7 +33,6 @@
             <a th:href="@{/admin/rides}">View Rides</a>
         </div>
     </div>
-    <a th:href="@{/logout}">Logout</a>
 </div>
 </body>
 </html>

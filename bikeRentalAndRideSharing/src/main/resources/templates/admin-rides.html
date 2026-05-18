@@ -6,29 +6,40 @@
 </head>
 <body>
 <div class="container">
-    <h1>Active Rides</h1>
-    <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+    <header>
+        <h1>Active Rides</h1>
+        <nav>
+            <a th:href="@{/admin/dashboard}" class="btn-secondary">Back to Dashboard</a>
+            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </nav>
+    </header>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Poster</th>
-            <th>Pickup</th>
-            <th>Destination</th>
-            <th>Ride Time</th>
-            <th>Seats</th>
-            <th>Status</th>
-        </tr>
-        <tr th:each="ride : ${rides}">
-            <td th:text="${ride.id}"></td>
-            <td th:text="${ride.posterName}"></td>
-            <td th:text="${ride.pickupLocation}"></td>
-            <td th:text="${ride.destinationLocation}"></td>
-            <td th:text="${ride.rideTime}"></td>
-            <td th:text="${ride.seatsAvailable}"></td>
-            <td th:text="${ride.status}"></td>
-        </tr>
-    </table>
+    <div class="booking-table-container">
+        <table class="styled-table">
+            <tr>
+                <th>ID</th>
+                <th>Poster</th>
+                <th>Pickup</th>
+                <th>Destination</th>
+                <th>Ride Time</th>
+                <th>Seats</th>
+                <th>Status</th>
+            </tr>
+            <tr th:each="ride : ${rides}">
+                <td th:text="${ride.id}"></td>
+                <td th:text="${ride.posterName}"></td>
+                <td th:text="${ride.pickupLocation}"></td>
+                <td th:text="${ride.destinationLocation}"></td>
+                <td th:text="${ride.rideTime}"></td>
+                <td th:text="${ride.seatsAvailable}"></td>
+                <td>
+                    <span class="status-badge" th:text="${ride.status}"
+                          th:classappend="${ride.status == 'OPEN'} ? 'open' : 'cancelled'">
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>
