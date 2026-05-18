@@ -6,45 +6,54 @@
 </head>
 <body>
 <div class="container">
-  <div class="invoice-box">
+  <header>
     <h1>Invoice Summary</h1>
+    <nav>
+      <a th:href="@{/my-profile}" class="btn-secondary">My Profile</a>
+      <a th:href="@{/logout}" class="btn-logout">Logout</a>
+    </nav>
+  </header>
 
-    <table class="invoice-table">
+  <div class="booking-table-container" style="max-width: 650px; margin: 0 auto;">
+    <table class="styled-table">
       <tr>
-        <td><strong>Invoice ID:</strong></td>
+        <td><strong>Invoice ID</strong></td>
         <td th:text="${invoice.id}"></td>
       </tr>
       <tr>
-        <td><strong>Customer:</strong></td>
+        <td><strong>Customer</strong></td>
         <td th:text="${invoice.user.username}"></td>
       </tr>
       <tr>
-        <td><strong>Bike:</strong></td>
+        <td><strong>Bike</strong></td>
         <td th:text="${invoice.booking.bike.model}"></td>
       </tr>
       <tr>
-        <td><strong>Start Time:</strong></td>
+        <td><strong>Start Time</strong></td>
         <td th:text="${invoice.booking.startTime}"></td>
       </tr>
       <tr>
-        <td><strong>End Time:</strong></td>
+        <td><strong>End Time</strong></td>
         <td th:text="${invoice.booking.endTime}"></td>
       </tr>
       <tr>
-        <td><strong>Duration:</strong></td>
+        <td><strong>Duration</strong></td>
         <td th:text="${invoice.booking.durationHours + ' hours'}"></td>
       </tr>
       <tr>
-        <td><strong>Status:</strong></td>
-        <td th:text="${invoice.status}"></td>
+        <td><strong>Status</strong></td>
+        <td>
+          <span class="status-badge pending" th:text="${invoice.status}"></span>
+        </td>
       </tr>
-      <tr class="total-row">
-        <td><strong>Total Amount:</strong></td>
+      <tr>
+        <td><strong>Total Amount</strong></td>
         <td><strong>$<span th:text="${invoice.amount}"></span></strong></td>
       </tr>
     </table>
 
-    <form th:action="@{/bookings/confirm/{id}(id=${invoice.id})}" method="post">
+    <form th:action="@{/bookings/confirm/{id}(id=${invoice.id})}" method="post"
+          class="auth-form" style="margin-top: 20px;">
       <div class="form-group">
         <label>Payment Method</label>
         <select name="paymentMethod" required>
@@ -52,17 +61,14 @@
           <option value="CARD">Card</option>
         </select>
       </div>
-
-      <div class="button-group">
-        <button type="submit" class="btn-primary">Confirm & Pay</button>
-      </div>
+      <button type="submit" class="btn-primary">Confirm &amp; Pay</button>
+      <a th:href="@{/bookings/cancel-invoice/{id}(id=${invoice.id})}"
+         class="btn-cancel"
+         style="margin-left: 10px;"
+         onclick="return confirm('Are you sure you want to cancel this booking?')">
+        Cancel Booking
+      </a>
     </form>
-
-    <a th:href="@{/bookings/cancel-invoice/{id}(id=${invoice.id})}"
-       class="btn-danger"
-       onclick="return confirm('Are you sure you want to cancel this booking?')">
-      Cancel Booking
-    </a>
   </div>
 </div>
 </body>

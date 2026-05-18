@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rent a Bike</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Rent a Bike</h1>
+        <nav>
+            <a th:href="@{/bikes}" class="btn-secondary">Back to Bikes</a>
+            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="auth-container" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-body">
+            <h2 th:text="${bike.brand} + ' ' + ${bike.model}"></h2>
+            <p><strong>Location:</strong> <span th:text="${bike.location}"></span></p>
+            <p><strong>Price Per Hour:</strong> $<span th:text="${bike.pricePerHour}"></span></p>
+            <p><strong>Price Per Day:</strong> $<span th:text="${bike.pricePerDay}"></span></p>
+        </div>
+
+        <form th:action="@{/bookings/rent}" method="post" class="auth-form" style="margin-top: 20px;">
+            <input type="hidden" name="userId" th:value="${userId}"/>
+            <input type="hidden" name="bikeId" th:value="${bike.bikeId}"/>
+
+            <div class="form-group">
+                <label>Start Time</label>
+                <input type="datetime-local" name="startTime" required/>
+            </div>
+            <div class="form-group">
+                <label>End Time</label>
+                <input type="datetime-local" name="endTime" required/>
+            </div>
+
+            <button type="submit" class="btn-primary">Confirm Booking</button>
+            <a th:href="@{/bikes}" class="btn-cancel" style="margin-left: 10px;">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
