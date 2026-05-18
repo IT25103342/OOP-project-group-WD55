@@ -42,6 +42,7 @@ public class BookingWebController {
         if (user == null) return "redirect:/login";
 
         model.addAttribute("bookings", bookingService.getUserBookings(user.getId()));
+        model.addAttribute("userId", user.getId());
         return "bookings-list";
     }
 

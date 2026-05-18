@@ -4,163 +4,178 @@
   <title>My Profile</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-<div class="container">
+<body class="profile-page-bg">
+<div class="container profile-container">
 
-  <header class="main-header">
+  <header class="main-header profile-header">
     <h1>My Profile</h1>
-    <nav>
+    <nav class="profile-nav">
       <a th:href="@{/rides}" class="btn-secondary">Rides</a>
       <a th:href="@{/bikes}" class="btn-secondary">Bikes</a>
       <a th:href="@{/logout}" class="btn-logout">Logout</a>
     </nav>
   </header>
 
-  <!-- User Info -->
-  <div class="profile-card">
-    <h2 th:text="${user.username}">Username</h2>
-    <p th:text="${user.email}">Email</p>
-    <p th:text="${user.role}">Role</p>
+  <div class="user-profile-card">
+    <div class="avatar-circle" th:text="${#strings.substring(user.username,0,1).toUpperCase()}">U</div>
+    <div class="user-details">
+      <h2 th:text="${user.username}">Username</h2>
+      <p class="user-email" th:text="${user.email}">Email</p>
+      <span class="user-role-badge" th:text="${user.role}">Role</span>
+    </div>
   </div>
 
-  <!-- Rental History -->
-  <section>
-    <h2>My Rentals</h2>
-    <table class="styled-table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Bike</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Duration</th>
-        <th>Total</th>
-        <th>Status</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="booking : ${bookings}">
-        <td th:text="'#' + ${booking.id}"></td>
-        <td th:text="${booking.bikeModel}"></td>
-        <td th:text="${booking.startTime}"></td>
-        <td th:text="${booking.endTime}"></td>
-        <td th:text="${booking.durationHours} + ' hrs'"></td>
-        <td th:text="'$' + ${booking.totalPrice}"></td>
-        <td th:text="${booking.bookingStatus}"></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(bookings)}">
-        <td colspan="7" style="text-align:center">No rentals yet.</td>
-      </tr>
-      </tbody>
-    </table>
-  </section>
+  <div class="profile-sections-grid">
 
-  <!-- Rides I Posted -->
-  <section>
-    <h2>Rides I Posted</h2>
-    <table class="styled-table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Pickup</th>
-        <th>Destination</th>
-        <th>Time</th>
-        <th>Seats Left</th>
-        <th>Fee/Seat</th>
-        <th>Status</th>
-        <th>Passengers</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="ride : ${myRides}">
-        <td th:text="'#' + ${ride.id}"></td>
-        <td th:text="${ride.pickupLocation}"></td>
-        <td th:text="${ride.destinationLocation}"></td>
-        <td th:text="${ride.rideTime}"></td>
-        <td th:text="${ride.seatsAvailable}"></td>
-        <td th:text="'$' + ${ride.feePerSeat ?: '0.00'}"></td>
-        <td th:text="${ride.status}"></td>
-        <td>
-          <span th:if="${#lists.isEmpty(ride.passengerNames)}">None</span>
-          <span th:each="name, iter : ${ride.passengerNames}">
-                            <span th:text="${name}"></span>
-                            <span th:if="${!iter.last}">, </span>
-                        </span>
-        </td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(myRides)}">
-        <td colspan="8" style="text-align:center">You haven't posted any rides.</td>
-      </tr>
-      </tbody>
-    </table>
-  </section>
+    <section class="profile-section-card">
+      <h2>My Rentals</h2>
+      <div class="table-responsive">
+        <table class="styled-profile-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Bike</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Duration</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="booking : ${bookings}">
+            <td class="id-col" th:text="'#' + ${booking.id}"></td>
+            <td th:text="${booking.bikeModel}"></td>
+            <td th:text="${booking.startTime}"></td>
+            <td th:text="${booking.endTime}"></td>
+            <td th:text="${booking.durationHours} + ' hrs'"></td>
+            <td class="price-col" th:text="'$' + ${booking.totalPrice}"></td>
+            <td>
+              <span th:class="'status-badge ' + ${#strings.toLowerCase(booking.bookingStatus)}" th:text="${booking.bookingStatus}"></span>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(bookings)}">
+            <td colspan="7" class="empty-row">No rentals yet.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <!-- Rides I Joined -->
-  <section>
-    <h2>Rides I Joined</h2>
-    <table class="styled-table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Pickup</th>
-        <th>Destination</th>
-        <th>Time</th>
-        <th>Posted By</th>
-        <th>Fee/Seat</th>
-        <th>Status</th>
-        <th>Passengers</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="ride : ${joinedRides}">
-        <td th:text="'#' + ${ride.id}"></td>
-        <td th:text="${ride.pickupLocation}"></td>
-        <td th:text="${ride.destinationLocation}"></td>
-        <td th:text="${ride.rideTime}"></td>
-        <td th:text="${ride.posterName}"></td>
-        <td th:text="'$' + (${ride.feePerSeat} ?: '0.00')"></td>
-        <td th:text="${ride.status}"></td>
-        <td>
-          <span th:if="${#lists.isEmpty(ride.passengerNames)}">None</span>
-          <span th:each="name, iter : ${ride.passengerNames}">
-                            <span th:text="${name}"></span>
-                            <span th:if="${!iter.last}">, </span>
-                        </span>
-        </td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(joinedRides)}">
-        <td colspan="8" style="text-align:center">You haven't joined any rides.</td>
-      </tr>
-      </tbody>
-    </table>
-  </section>
+    <section class="profile-section-card">
+      <h2>Rides I Posted</h2>
+      <div class="table-responsive">
+        <table class="styled-profile-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Pickup</th>
+            <th>Destination</th>
+            <th>Time</th>
+            <th>Seats Left</th>
+            <th>Fee/Seat</th>
+            <th>Status</th>
+            <th>Passengers</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="ride : ${myRides}">
+            <td class="id-col" th:text="'#' + ${ride.id}"></td>
+            <td th:text="${ride.pickupLocation}"></td>
+            <td th:text="${ride.destinationLocation}"></td>
+            <td th:text="${ride.rideTime}"></td>
+            <td th:text="${ride.seatsAvailable}"></td>
+            <td class="price-col" th:text="'$' + ${ride.feePerSeat ?: '0.00'}"></td>
+            <td>
+              <span th:class="'status-badge ' + ${#strings.toLowerCase(ride.status)}" th:text="${ride.status}"></span>
+            </td>
+            <td>
+              <span th:if="${#lists.isEmpty(ride.passengerNames)}" class="no-passengers">None</span>
+              <span th:each="name, iter : ${ride.passengerNames}">
+                  <span class="passenger-tag" th:text="${name}"></span><span th:if="${!iter.last}">, </span>
+              </span>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(myRides)}">
+            <td colspan="8" class="empty-row">You haven't posted any rides.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <!-- Billing History -->
-  <section>
-    <h2>Billing History</h2>
-    <table class="styled-table">
-      <thead>
-      <tr>
-        <th>Invoice ID</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>Status</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="invoice : ${invoices}">
-        <td th:text="'#INV-' + ${invoice.id}"></td>
-        <td th:text="'$' + ${invoice.amount}"></td>
-        <td th:text="${invoice.paymentDate}"></td>
-        <td th:text="${invoice.status}"></td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(invoices)}">
-        <td colspan="4" style="text-align:center">No invoices yet.</td>
-      </tr>
-      </tbody>
-    </table>
-  </section>
+    <section class="profile-section-card">
+      <h2>Rides I Joined</h2>
+      <div class="table-responsive">
+        <table class="styled-profile-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Pickup</th>
+            <th>Destination</th>
+            <th>Time</th>
+            <th>Posted By</th>
+            <th>Fee/Seat</th>
+            <th>Status</th>
+            <th>Passengers</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="ride : ${joinedRides}">
+            <td class="id-col" th:text="'#' + ${ride.id}"></td>
+            <td th:text="${ride.pickupLocation}"></td>
+            <td th:text="${ride.destinationLocation}"></td>
+            <td th:text="${ride.rideTime}"></td>
+            <td th:text="${ride.posterName}"></td>
+            <td class="price-col" th:text="'$' + (${ride.feePerSeat} ?: '0.00')"></td>
+            <td>
+              <span th:class="'status-badge ' + ${#strings.toLowerCase(ride.status)}" th:text="${ride.status}"></span>
+            </td>
+            <td>
+              <span th:if="${#lists.isEmpty(ride.passengerNames)}" class="no-passengers">None</span>
+              <span th:each="name, iter : ${ride.passengerNames}">
+                  <span class="passenger-tag" th:text="${name}"></span><span th:if="${!iter.last}">, </span>
+              </span>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(joinedRides)}">
+            <td colspan="8" class="empty-row">You haven't joined any rides.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
+    <section class="profile-section-card">
+      <h2>Billing History</h2>
+      <div class="table-responsive">
+        <table class="styled-profile-table">
+          <thead>
+          <tr>
+            <th>Invoice ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="invoice : ${invoices}">
+            <td class="id-col" th:text="'#INV-' + ${invoice.id}"></td>
+            <td class="price-col" th:text="'$' + ${invoice.amount}"></td>
+            <td th:text="${invoice.paymentDate}"></td>
+            <td>
+              <span th:class="'status-badge ' + ${#strings.toLowerCase(invoice.status)}" th:text="${invoice.status}"></span>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(invoices)}">
+            <td colspan="4" class="empty-row">No invoices yet.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
 </div>
 </body>
 </html>

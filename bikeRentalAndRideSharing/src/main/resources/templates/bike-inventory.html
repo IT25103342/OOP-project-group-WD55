@@ -9,6 +9,7 @@
     <header class="main-header">
         <h1 th:text="'Welcome, ' + ${username}">Welcome</h1>
         <nav>
+            <a th:href="@{/my-profile}" class="btn-primary">My Profile</a>
             <a th:href="@{/rides}" class="btn-secondary">Ride Shares</a>
             <a th:href="@{/logout}" class="btn-logout">Logout</a>
         </nav>

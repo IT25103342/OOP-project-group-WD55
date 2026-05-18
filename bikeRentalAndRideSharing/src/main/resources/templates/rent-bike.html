@@ -9,35 +9,53 @@
     <header>
         <h1>Rent a Bike</h1>
         <nav>
+            <a th:href="@{/my-profile}" class="btn-primary">My Profile</a>
             <a th:href="@{/bikes}" class="btn-secondary">Back to Bikes</a>
             <a th:href="@{/logout}" class="btn-logout">Logout</a>
         </nav>
     </header>
 
-    <div class="auth-container" style="max-width: 600px; margin: 0 auto;">
-        <div class="card-body">
-            <h2 th:text="${bike.brand} + ' ' + ${bike.model}"></h2>
-            <p><strong>Location:</strong> <span th:text="${bike.location}"></span></p>
-            <p><strong>Price Per Hour:</strong> $<span th:text="${bike.pricePerHour}"></span></p>
-            <p><strong>Price Per Day:</strong> $<span th:text="${bike.pricePerDay}"></span></p>
+    <div style="max-width: 700px; margin: 0 auto;">
+
+        <!-- Bike Info Card -->
+        <div class="ride-card" style="margin-bottom: 25px;">
+            <div class="card-img-wrapper">
+                <img th:src="${bike.imageURL != null ? bike.imageURL : 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500'}"
+                     alt="Bike Image"/>
+            </div>
+            <div class="card-body">
+                <h2 th:text="${bike.brand} + ' ' + ${bike.model}"></h2>
+                <p><strong>📍 Location:</strong> <span th:text="${bike.location}"></span></p>
+                <div class="price-container" style="margin-top: 10px;">
+                    <span class="price-tag" th:text="'$' + ${bike.pricePerHour} + '/hr'"></span>
+                    <span class="price-tag" th:text="'$' + ${bike.pricePerDay} + '/day'"></span>
+                </div>
+            </div>
         </div>
 
-        <form th:action="@{/bookings/rent}" method="post" class="auth-form" style="margin-top: 20px;">
-            <input type="hidden" name="userId" th:value="${userId}"/>
-            <input type="hidden" name="bikeId" th:value="${bike.bikeId}"/>
+        <!-- Booking Form Card -->
+        <div class="booking-table-container">
+            <h3 style="margin-bottom: 20px; color: var(--secondary);">Select Your Rental Period</h3>
+            <form th:action="@{/bookings/rent}" method="post" class="auth-form">
+                <input type="hidden" name="userId" th:value="${userId}"/>
+                <input type="hidden" name="bikeId" th:value="${bike.bikeId}"/>
 
-            <div class="form-group">
-                <label>Start Time</label>
-                <input type="datetime-local" name="startTime" required/>
-            </div>
-            <div class="form-group">
-                <label>End Time</label>
-                <input type="datetime-local" name="endTime" required/>
-            </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="datetime-local" name="startTime" required/>
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="datetime-local" name="endTime" required/>
+                </div>
 
-            <button type="submit" class="btn-primary">Confirm Booking</button>
-            <a th:href="@{/bikes}" class="btn-cancel" style="margin-left: 10px;">Cancel</a>
-        </form>
+                <div style="margin-top: 10px;">
+                    <button type="submit" class="btn-primary">Confirm Booking</button>
+                    <a th:href="@{/bikes}" class="btn-cancel" style="margin-left: 10px;">Cancel</a>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 </body>
