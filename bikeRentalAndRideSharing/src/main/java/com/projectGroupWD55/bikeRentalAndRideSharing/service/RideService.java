@@ -42,7 +42,7 @@ public class RideService {
             ride.setFeePerSeat(rideRequestDTO.getFeePerSeat());
         } else {
             ride.setFeePerSeat(0.0);
-        };
+        }
 
         Ride savedRide = rideRepository.save(ride);
 
@@ -53,10 +53,7 @@ public class RideService {
     }
 
     public List<RideResponseDTO> getJoinedRides(Long userId) {
-        return ridePassengerRepository.findByPassengerId(userId)
-                .stream()
-                .map(ridePassenger -> maptoresponseDTO(ridePassenger.getRide()))
-                .collect(Collectors.toList());
+        return ridePassengerRepository.findByPassengerId(userId).stream().map(RidePassenger::getRide).map(this::maptoresponseDTO).collect(Collectors.toList());
     }
 
 
@@ -94,25 +91,21 @@ public class RideService {
         Ride savedRide = rideRepository.save(ride);
         return maptoresponseDTO(savedRide);
     }
-
     public RideResponseDTO cancelRide(Long rideId,Long ridePassengerId) {
         User1 requester = userRepository.findById(ridePassengerId).orElseThrow(() -> new RuntimeException("User not found"));
-        Ride ride=rideRepository.findById(rideId).orElseThrow(() -> new RuntimeException("Ride does not exist"));
-
+        Ride ride= rideRepository.findById(rideId).orElseThrow(()-> new RuntimeException("no rides found"));
         if(requester.getId().equals(ride.getPoster().getId())){
             ride.setStatus(RideStatus.CANCELLED);
             rideRepository.save(ride);
         }else{
-            RidePassenger toRemove = ridePassengerRepository.findByRideId(rideId).stream().filter(p -> p.getPassenger().getId().equals(ridePassengerId)).findFirst().orElseThrow(() -> new RuntimeException("You are not in this ride"));
-
-            ridePassengerRepository.delete(toRemove);
+            RidePassenger toremove = ridePassengerRepository.findByRideIdAndPassengerId(rideId,ridePassengerId).orElseThrow(()-> new RuntimeException("ride passenger done exist"));
+            ridePassengerRepository.delete(toremove);
             ride.setSeatsAvailable(ride.getSeatsAvailable() + 1);
             if (ride.getStatus() == RideStatus.FULL) {
                 ride.setStatus(RideStatus.OPEN);
             }
             rideRepository.save(ride);
         }
-
         return maptoresponseDTO(ride);
     }
 
@@ -133,7 +126,7 @@ public class RideService {
         rideResponseDTO.setPassengerCount(ride.getPassengerCount());
         rideResponseDTO.setFeePerSeat(ride.getFeePerSeat());
 
-        List<String> passengerNames = ridePassengerRepository.findByRideId(ride.getId()).stream().map(ridePassenger -> ridePassenger.getPassenger().getUsername()).collect(Collectors.toList());
+        List<String> passengerNames = ridePassengerRepository.findByRideId(ride.getId()).stream().map(RidePassenger::getPassenger).map(User1::getUsername).toList();
         rideResponseDTO.setPassengerNames(passengerNames);
 
 
