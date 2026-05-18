@@ -49,10 +49,7 @@ public class RideService {
         return maptoresponseDTO(savedRide);
     }
     public List<RideResponseDTO> getRidesByUser(Long userId) {
-        return rideRepository.findByPosterId(userId)
-                .stream()
-                .map(this::maptoresponseDTO)
-                .collect(Collectors.toList());
+        return rideRepository.findByPosterId(userId).stream().map(this::maptoresponseDTO).collect(Collectors.toList());
     }
 
     public List<RideResponseDTO> getJoinedRides(Long userId) {

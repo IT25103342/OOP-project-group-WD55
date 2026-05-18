@@ -51,6 +51,9 @@
                         Join Ride
                     </button>
                 </form>
+                <form th:action="@{/rides/{id}/cancel(id=${ride.id})}" method="post">
+                    <button type="submit" class="btn-danger">Cancel Ride</button>
+                </form>
             </div>
         </div>
     </div>

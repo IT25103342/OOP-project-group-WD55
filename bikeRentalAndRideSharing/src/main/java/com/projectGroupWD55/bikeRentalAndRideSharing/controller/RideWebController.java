@@ -55,4 +55,17 @@ public class RideWebController {
 
         return "redirect:/rides";
     }
+    @PostMapping("/{id}/cancel")
+    public String cancelRide(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        UserResponse user = (UserResponse) session.getAttribute("loggedInUser");
+        if (user == null) return "redirect:/login";
+
+        try {
+            rideService.cancelRide(id, user.getId());
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/rides";
+    }
 }
