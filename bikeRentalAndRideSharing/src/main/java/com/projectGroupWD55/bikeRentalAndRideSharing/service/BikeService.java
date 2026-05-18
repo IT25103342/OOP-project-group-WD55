@@ -30,9 +30,10 @@ public class BikeService {
         boik.setPricePerDay(bikeRequestDTO.getPricePerDay());
         boik.setPricePerHour(bikeRequestDTO.getPricePerHour());
         boik.setCreatedDate(LocalDateTime.now());
+        boik.setImageURL(bikeRequestDTO.getImageURL());
         boik.setStatus(BikeStatus.AVAILABLE);
 
-        Bike savedBike= bikeRepository.save(boik); //i made it so that it saves here and the rest is done to protect the dto(saving private DTO, HAHHA get it?)
+        Bike savedBike= bikeRepository.save(boik);
 
         BikeResponseDTO response = new BikeResponseDTO();
         response.setBikeId(savedBike.getBikeId());
