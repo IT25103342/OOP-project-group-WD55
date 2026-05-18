@@ -2,10 +2,10 @@
 
 package BikeManagement.controller;
 
-import entity.Bike;
+import BikeManagement.entity.Bike;
 import java.util.List;
 import java.util.Scanner;
-import service.InventoryService;
+import BikeManagement.service.InventoryService;
 
 public class Main {
     private static InventoryService inventoryService = new InventoryService();

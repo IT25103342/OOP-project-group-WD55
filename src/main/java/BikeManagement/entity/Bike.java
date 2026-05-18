@@ -1,4 +1,4 @@
-package entity;
+package BikeManagement.entity;
 
 import java.io.Serializable;
 

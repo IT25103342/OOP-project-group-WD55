@@ -1,6 +1,6 @@
-package util;
+package BikeManagement.util;
 
-import entity.Bike;
+import BikeManagement.entity.Bike;
 import java.util.List;
 import java.util.regex.Pattern;
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Inventory Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar { background-color: #212529; }
+        .card { border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#">Bike Inventory Admin</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="display-6">Current Inventory</h2>
+            <p class="text-muted">Manage your bikes and operational status live from the database.</p>
+        </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+        <h5 class="mb-3"> Register New Asset</h5>
+        <form th:action="@{/add}" method="POST" class="row g-3">
+            <div class="col-md-3">
+                <input type="text" name="id" class="form-control" placeholder="Bike ID (e.g. B101)" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="type" class="form-control" placeholder="Type (e.g. Mountain)" required>
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select" required>
+                    <option value="AVAILABLE">AVAILABLE</option>
+                    <option value="RENTED">RENTED</option>
+                    <option value="MAINTENANCE">MAINTENANCE</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-success w-100">Save to Database</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card p-4">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>Bike ID</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bike : ${bikes}">
+                <td th:text="${bike.id}" class="fw-bold">ID</td>
+                <td th:text="${bike.type}">Type</td>
+                <td>
+                    <span th:text="${bike.status}"
+                          th:classappend="${bike.status == 'AVAILABLE' ? 'badge bg-success' : (bike.status == 'RENTED' ? 'badge bg-danger' : 'badge bg-warning text-dark')}">
+                        Status
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{/delete/{id}(id=${bike.id})}"
+                       class="btn btn-sm text-white"
+                       style="background-color: red;"
+                       onclick="return confirm('Are you sure you want to archive this bike asset?')">Delete</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(bikes)}">
+                <td colspan="4" class="text-center text-muted py-4">No active inventory matches your workspace parameters.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
