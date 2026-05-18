@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Admin Dashboard</title>
@@ -6,31 +6,28 @@
 </head>
 <body>
 <div class="container">
-    <header>
+    <div class="admin-header">
         <h1>Admin Dashboard</h1>
         <nav>
-            <a th:href="@{/admin/users}" class="btn-secondary">Manage Users</a>
-            <a th:href="@{/admin/bikes}" class="btn-secondary">Manage Bikes</a>
-            <a th:href="@{/admin/rides}" class="btn-secondary">View Rides</a>
-            <a th:href="@{/logout}" class="btn-logout">Logout</a>
+            <a th:href="@{/admin/users}">Manage Users</a>
+            <a th:href="@{/admin/bikes}">Manage Bikes</a>
+            <a th:href="@{/admin/rides}">View Rides</a>
+            <a th:href="@{/logout}">Logout</a>
         </nav>
-    </header>
+    </div>
 
     <div class="dashboard-stats">
         <div class="stat-card">
             <h3>Total Users</h3>
             <p th:text="${userCount}">0</p>
-            <a th:href="@{/admin/users}">Manage Users</a>
         </div>
         <div class="stat-card">
             <h3>Total Bikes</h3>
             <p th:text="${bikeCount}">0</p>
-            <a th:href="@{/admin/bikes}">Manage Bikes</a>
         </div>
         <div class="stat-card">
             <h3>Active Rides</h3>
             <p th:text="${rideCount}">0</p>
-            <a th:href="@{/admin/rides}">View Rides</a>
         </div>
     </div>
 </div>
